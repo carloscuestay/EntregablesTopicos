@@ -167,21 +167,9 @@ const update_photo = async (photo_params5) => {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 //Exporta los end points para uso global
 module.exports = {
     create_photo, query_photo, queryall_photos, delete_photo, update_photo
-
 }
 
-
+//fin 

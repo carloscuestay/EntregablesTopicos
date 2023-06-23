@@ -139,29 +139,35 @@ const update_photo = async (photo_params5) => {
     const {error} = update_regex.validate(photo_params5)
     if (error){
         return {
-            message:'hubo error en algo',
+            message:'hubo error, verificar datos ingresados',
             error: error.details[0].message
         } 
     }
-    const update_search = await Photo.findByIdAndUpdate(photo_params5.name_photo,
-        {$set:
-            {
-                name_photo:photo_params5.name_photo,
-                fechacargue_photo:photo_params5.fechacargue_photo,
-                url_photo:photo_params5.url_photo 
-    },})
-    
-    if(!update_search){
-        console.log('entro')
-        return {
-            message:'Hubo un Error, Favor Revisar los parametros de busqueda '
+    const ParametroBusqueda = {name_photo:photo_params5.name_photo}
+    const update_searchT= await Photo.findOne(ParametroBusqueda)
+        if(!update_searchT){
+            return {
+            message:'Hubo un Error, foto no enconytrada'
         }
     }else{
-        return {
-                message: 'Foto Actualizada con Exito'
-            }  
-    }    
+    
+    const update_searchT = await Photo.findOneAndUpdate(ParametroBusqueda,
+        {name_photo:photo_params5.name_photo, fechacargue_photo:photo_params5.fechacargue_photo, url_photo:photo_params5.url_photo},
+        {returnOriginal: false})
+    }
+        if(!update_searchT){
+            return {
+            message:'Hubo un Error, no se actulizaron los datos'
+        }
+    }else{
+        console.log('si actualizo')
+        return{
+            status:true,
+            message:'Datos de Foto Actualizados correctamente'
+        }
+    }
 }
+
 
 
 
